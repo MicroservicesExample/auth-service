@@ -1,0 +1,36 @@
+#logging:
+#  level:
+#    org.springframework.security: trace
+server:
+  port: 9000
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min: 5
+
+spring:
+  datasource:
+    driver-class-nam: org.h2.Driver
+    url: jdbc:h2:~/myAuthServerH2Database
+    username: sa
+    password: sa
+  sql:
+   init:
+     mode: always
+
+jwk:
+  persistence:
+    encrypt:
+      password: secret-pass
+      salt: 123512
+
+
+
+app:
+  client:
+    registration:
+      client-id: app-service
+      client-secret: "{bcrypt}$2a$10$rCZ9Cya8qoHLOKlOr7OTRetlW9GHxRgIC8B33vI/BTelUF81Vz7SG"
+      redirect-uri: http://127.0.0.1:8080/login/oauth2/code/myAuthServer
