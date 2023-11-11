@@ -9,17 +9,24 @@ server:
     threads:
       max: 50
       min: 5
-
 spring:
-  datasource:
-    driver-class-nam: org.h2.Driver
-    url: jdbc:h2:~/myAuthServerH2Database
-    username: sa
-    password: sa
-  sql:
-   init:
-     mode: always
-
+  application:
+    name: auth-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: "http://localhost:9001"
+      request-connect-timeout: 5000
+      request-read-timeout: 5000
+      fail-fast: false
+      retry:
+        max-attempts: 5
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
 jwk:
   persistence:
     encrypt:

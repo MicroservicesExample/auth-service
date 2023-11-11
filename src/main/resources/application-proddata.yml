@@ -1,0 +1,16 @@
+#############Persistence #####################
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/authService
+    username: postgres
+    password: postgres
+    pool:
+      max-create-connection-time: 2s
+      initial-size: 5
+      max-size: 10
+
+flyway:
+  url: jdbc:postgresql://localhost:5432/authService
+  username: ${spring.datasource.username}
+  password: ${spring.datasource.password}

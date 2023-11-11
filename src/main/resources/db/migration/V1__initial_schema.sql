@@ -1,11 +1,11 @@
 -- users
-create table if not exists users
+create table  users
 (
     username varchar(200) not null primary key,
     password varchar(500) not null,
     enabled  boolean      not null
 );
-create table if not exists authorities
+create table  authorities
 (
     username  varchar(200) not null,
     authority varchar(50)  not null,
@@ -15,7 +15,7 @@ create table if not exists authorities
 
 
 -- clients
-CREATE TABLE if not exists oauth2_registered_client
+CREATE TABLE  oauth2_registered_client
 (
     id                            varchar(100)                            NOT NULL,
     client_id                     varchar(100)                            NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE if not exists oauth2_registered_client
 
 
 --consent
-create table if not exists oauth2_authorization_consent
+create table  oauth2_authorization_consent
 (
     registered_client_id varchar(100)  NOT NULL,
     principal_name       varchar(200)  NOT NULL,
@@ -43,7 +43,7 @@ create table if not exists oauth2_authorization_consent
     PRIMARY KEY (registered_client_id, principal_name)
 );
 
-create table if not exists oauth2_authorization
+create table  oauth2_authorization
 (
     id                            varchar(100) NOT NULL,
     registered_client_id          varchar(100) NOT NULL,
@@ -82,7 +82,7 @@ create table if not exists oauth2_authorization
 );
 
 -- sessions
-create table if not exists spring_session
+create table  spring_session
 (
     primary_id            character(36) primary key not null,
     session_id            character(36)             not null,
@@ -92,12 +92,12 @@ create table if not exists spring_session
     expiry_time           bigint                    not null,
     principal_name        character varying(100)
 );
-create unique index if not exists spring_session_ix1 on spring_session using btree (session_id);
-create index if not exists spring_session_ix2 on spring_session using btree (expiry_time);
-create index if not exists spring_session_ix3 on spring_session using btree (principal_name);
+create unique index  spring_session_ix1 on spring_session using btree (session_id);
+create index  spring_session_ix2 on spring_session using btree (expiry_time);
+create index  spring_session_ix3 on spring_session using btree (principal_name);
 
 -- session attributes
-create table if not exists spring_session_attributes
+create table  spring_session_attributes
 (
     session_primary_id character(36)          not null,
     attribute_name     character varying(200) not null,
@@ -108,7 +108,7 @@ create table if not exists spring_session_attributes
 );
 
 -- rsa_key_pairs
-create table if not exists rsa_key_pairs
+create table  rsa_key_pairs
 (
     id          varchar(1000) not null primary key,
     private_key text          not null,

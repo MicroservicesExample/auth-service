@@ -15,6 +15,7 @@
 	<description>Auth Service</description>
 	<properties>
 		<java.version>17</java.version>
+		<spring-cloud.version>2022.0.4</spring-cloud.version>
 		<!-- provide these property values on the cli -->
 		<image.name>${project.name}</image.name>
 		<image.publish>false</image.publish>
@@ -36,6 +37,12 @@
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
 
+		 <!--Database version control using flyway-->
+	    <dependency>
+	      <groupId>org.flywaydb</groupId>
+	      <artifactId>flyway-core</artifactId>
+	    </dependency>
+		
 		<dependency>
 	      <groupId>com.h2database</groupId>
 	      <artifactId>h2</artifactId>
@@ -47,12 +54,40 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>-->
+		 <!-- config server client -->
+    	 <dependency>
+	      <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-starter-config</artifactId>
+	    </dependency>
+	    
+	    <!-- config server client retry -->
+	    <dependency>
+	        <groupId>org.springframework.retry</groupId>
+	        <artifactId>spring-retry</artifactId>
+	    </dependency>
+	    
+	     <!-- actuator provides many endpoints, we will use refresh endpoint to trigger configuration refresh -->
+	     <dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-actuator</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<dependencyManagement>
+	    <dependencies>
+	      <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-dependencies</artifactId>
+	        <version>${spring-cloud.version}</version>
+	        <type>pom</type>
+	        <scope>import</scope>
+	      </dependency>
+	    </dependencies>
+	  </dependencyManagement>
 
 	<build>
 		<plugins>

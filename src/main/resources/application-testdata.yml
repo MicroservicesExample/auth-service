@@ -1,0 +1,19 @@
+#logging:
+#  level:
+#    org.springframework: debug
+
+#############Persistence #####################
+spring:
+  datasource:
+    driver-class-nam: org.h2.Driver
+    url: jdbc:h2:~/authService
+    username: sa
+    password: sa
+
+  flyway:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/authService
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+

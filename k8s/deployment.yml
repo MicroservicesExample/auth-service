@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: auth-service:1.0
+          imagePullPolicy: IfNotPresent
+          #Makes Kubernetes wait 5 seconds before sending the SIGTERM signal to the Pod by that Kubernetes will update its components to not to send new requests to the pod.( sleep is to avoid race condition)
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5"]
+          ports:
+            - containerPort: 9000
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service:9001
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://my-postgres:5432/authService
+            - name: APP-SERVICE_CLIENT_REDIRECT-URI
+              value: http://app-service/login/oauth2/code/myauth
+            - name: SPRING_PROFILES_ACTIVE
+              value: proddata
