@@ -57,7 +57,7 @@ class UsersConfiguration {
         return args -> {
             var builder = User.builder();
             var users = Map.of(
-                    "ashok", "{bcrypt}$2a$10$oxqx/bdaY9eMSceKwVjsA.bEyaFbdPq/NXk2xbx9sdp9yF4HQIHcG",
+                    "ashok", "{noop}1234",
                     "admin", "{bcrypt}$2a$10$iSRhqIhA95xls5HbYFKFyOxcUuiIOEQUW4MBJHO.LiSQlzUvA3x/W");
             users.forEach((username, password) -> {
                 if (!userDetailsManager.userExists(username)) {
