@@ -41,3 +41,13 @@ app:
       client-id: app-service
       client-secret: "{bcrypt}$2a$10$rCZ9Cya8qoHLOKlOr7OTRetlW9GHxRgIC8B33vI/BTelUF81Vz7SG"
       redirect-uri: "${APP-SERVICE_CLIENT_REDIRECT-URI:http://127.0.0.1:8080/login/oauth2/code/myauth}"
+  users:
+      - username: ashok
+        password: "{noop}1234"
+        roles: 
+          - USER
+      - username: admin
+        password: "{bcrypt}$2a$10$iSRhqIhA95xls5HbYFKFyOxcUuiIOEQUW4MBJHO.LiSQlzUvA3x/W"
+        roles: 
+          - ADMIN
+          - USER

@@ -1,12 +1,12 @@
 package org.ashok.authservice;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import org.ashok.authservice.client.ClientRegistrationProperties;
+import org.ashok.authservice.user.RegisteredUsers;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -53,18 +53,16 @@ class UsersConfiguration {
     }
 
     @Bean
-    ApplicationRunner usersRunner(UserDetailsManager userDetailsManager) {
+    ApplicationRunner usersRunner(UserDetailsManager userDetailsManager, RegisteredUsers users) {
         return args -> {
             var builder = User.builder();
-            var users = Map.of(
-                    "ashok", "{noop}1234",
-                    "admin", "{bcrypt}$2a$10$iSRhqIhA95xls5HbYFKFyOxcUuiIOEQUW4MBJHO.LiSQlzUvA3x/W");
-            users.forEach((username, password) -> {
-                if (!userDetailsManager.userExists(username)) {
-                    String role = "admin".equalsIgnoreCase(username) ? "ADMIN" : "USER";
-                	var user = builder.roles(role)
-                            .username(username)
-                            .password(password)
+			
+            users.getUsers().forEach((registeredUser) -> {
+                if (!userDetailsManager.userExists(registeredUser.getUsername())) {
+                   
+                	var user = builder.roles(registeredUser.getRoles().toArray(new String[0]))
+                            .username(registeredUser.getUsername())
+                            .password(registeredUser.getPassword())
                             .build();
                     userDetailsManager.createUser(user);
                 }
@@ -102,6 +100,7 @@ class ClientsConfiguration {
                                 .authorizationGrantTypes(grantTypes -> grantTypes.addAll(Set.of(
                                         AuthorizationGrantType.CLIENT_CREDENTIALS,
                                         AuthorizationGrantType.AUTHORIZATION_CODE,
+                                        AuthorizationGrantType.PASSWORD,
                                         AuthorizationGrantType.REFRESH_TOKEN)))
                                 .redirectUri(clientProperties.getRedirectUri())
                                 .scopes(scopes -> scopes.addAll(Set.of("user.read", "user.write", OidcScopes.OPENID)))
