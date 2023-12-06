@@ -100,7 +100,6 @@ class ClientsConfiguration {
                                 .authorizationGrantTypes(grantTypes -> grantTypes.addAll(Set.of(
                                         AuthorizationGrantType.CLIENT_CREDENTIALS,
                                         AuthorizationGrantType.AUTHORIZATION_CODE,
-                                        AuthorizationGrantType.PASSWORD,
                                         AuthorizationGrantType.REFRESH_TOKEN)))
                                 .redirectUri(clientProperties.getRedirectUri())
                                 .scopes(scopes -> scopes.addAll(Set.of("user.read", "user.write", OidcScopes.OPENID)))

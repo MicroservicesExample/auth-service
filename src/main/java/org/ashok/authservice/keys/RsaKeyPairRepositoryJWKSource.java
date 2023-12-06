@@ -1,22 +1,19 @@
 package org.ashok.authservice.keys;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import com.nimbusds.jose.KeySourceException;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSelector;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.random.RandomGenerator;
 
 @Component
-class RsaKeyPairRepositoryJWKSource implements
-        JWKSource<SecurityContext>, OAuth2TokenCustomizer<JwtEncodingContext> {
+class RsaKeyPairRepositoryJWKSource implements JWKSource<SecurityContext> {
 
     private final RsaKeyPairRepository keyPairRepository;
 
@@ -36,12 +33,5 @@ class RsaKeyPairRepositoryJWKSource implements
         }
         return result;
     }
-
-    @Override
-    public void customize(JwtEncodingContext context) {
-        var keyPairs = this.keyPairRepository.findKeyPairs();
-        var randomKey = (int) Math.random() * keyPairs.size();
-        var kid = keyPairs.get(randomKey).id();
-        context.getJwsHeader().keyId(kid);
-    }
+	
 }

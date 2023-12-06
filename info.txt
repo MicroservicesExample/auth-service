@@ -1,0 +1,5 @@
+https://cloudsundial.com/salesforce-oauth-flows
+https://www.unosquare.com/blog/why-and-how-to-improve-jwt-security-with-jwks-key-rotation-in-java/
+
+Code ref - https://github.com/rwinch/spring-enterprise-authorization-server/
+https://github.com/coffee-software-show/the-durable-spring-authorization-server
