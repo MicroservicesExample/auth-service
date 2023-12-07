@@ -46,8 +46,13 @@ app:
         password: "{noop}1234"
         roles: 
           - USER
+          - ADMIN
       - username: admin
         password: "{bcrypt}$2a$10$iSRhqIhA95xls5HbYFKFyOxcUuiIOEQUW4MBJHO.LiSQlzUvA3x/W"
         roles: 
           - ADMIN
+          - USER
+      - username: test@test.com
+        password: "{noop}test"
+        roles: 
           - USER
