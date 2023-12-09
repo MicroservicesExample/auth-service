@@ -1,18 +1,23 @@
 package org.ashok.authservice.token;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.ashok.authservice.keys.RsaKeyPairRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import java.util.Collections;
+
 @Configuration
 public class TokenConfig {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TokenConfig.class);
 	
 	private final RsaKeyPairRepository keyPairRepository;
 	
@@ -49,6 +54,7 @@ public class TokenConfig {
 	
 	private void addKeyId(JwtEncodingContext context) {
 		var keyPairs = this.keyPairRepository.findKeyPairs();
+		logger.info("Got {} keys in the repository", keyPairs.size());
         var randomKey = (int) Math.random() * keyPairs.size();
         var kid = keyPairs.get(randomKey).id();
         context.getJwsHeader().keyId(kid);
