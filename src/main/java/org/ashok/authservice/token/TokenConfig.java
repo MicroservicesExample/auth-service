@@ -31,7 +31,8 @@ public class TokenConfig {
 	@Bean
 	TokenSettings tokenSettings() {
 		return TokenSettings.builder()
-					.refreshTokenTimeToLive(Duration.ofMinutes(30))
+					.refreshTokenTimeToLive(Duration.ofMinutes(45))
+					.accessTokenTimeToLive(Duration.ofMinutes(30))
 					.build();
 	}
 	
