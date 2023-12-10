@@ -1,5 +1,6 @@
 package org.ashok.authservice.token;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
@@ -23,6 +25,14 @@ public class TokenConfig {
 	
 	TokenConfig(RsaKeyPairRepository keyPairRepository){
 		this.keyPairRepository = keyPairRepository;
+	}
+	
+	
+	@Bean
+	TokenSettings tokenSettings() {
+		return TokenSettings.builder()
+					.refreshTokenTimeToLive(Duration.ofMinutes(30))
+					.build();
 	}
 	
 	/**

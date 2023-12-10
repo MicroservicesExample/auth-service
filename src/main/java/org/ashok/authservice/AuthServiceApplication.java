@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 
@@ -87,7 +88,9 @@ class ClientsConfiguration {
     }
 
     @Bean
-    ApplicationRunner clientsRunner(RegisteredClientRepository repository, ClientRegistrationProperties clientProperties) {
+    ApplicationRunner clientsRunner(RegisteredClientRepository repository,
+    								ClientRegistrationProperties clientProperties,
+    								TokenSettings tokenSettings) {
         return args -> {
             
             if (repository.findByClientId(clientProperties.getClientId()) == null) {
@@ -103,6 +106,7 @@ class ClientsConfiguration {
                                         AuthorizationGrantType.REFRESH_TOKEN)))
                                 .redirectUri(clientProperties.getRedirectUri())
                                 .scopes(scopes -> scopes.addAll(Set.of("user.read", "user.write", OidcScopes.OPENID)))
+                                .tokenSettings(tokenSettings)
                                 .build()
                 );
             }
