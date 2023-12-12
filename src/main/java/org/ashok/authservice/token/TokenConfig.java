@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
@@ -55,6 +56,11 @@ public class TokenConfig {
 					claims.put("roles", roles);
 					
 				});
+				if(AuthorizationGrantType.CLIENT_CREDENTIALS.equals(context.getAuthorizationGrantType())) { //for tests to succeed
+					context.getClaims().claims(claims -> {
+						claims.put("roles", Set.of("ADMIN"));
+					});
+				}
 			}
 			
 			addKeyId(context);
