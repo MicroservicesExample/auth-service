@@ -28,11 +28,18 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
+            
             - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service:9001
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://my-postgres:5432/authService
+              value: http://config-service
+            
             - name: APP-SERVICE_CLIENT_REDIRECT-URI
-              value: http://app-service/login/oauth2/code/myauth
+              value: http://<docker-machine-host-name>:8080/login/oauth2/code/myauth
+            
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://my-postgres:5432/authservice
+                                    
             - name: SPRING_PROFILES_ACTIVE
               value: proddata
+
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+              value: debug
